@@ -19,19 +19,34 @@ function get(){
     h = hours.value; 
     m = minutes.value; 
     s = seconds.value; 
-    
-    if(h == "")
-        h = 0; 
-    if(m == "")
-        m = 0; 
-    if(s == "")
-        s = 0; 
+ 
     //if invalid input return -1
     if(h > 24 || m > 60 || s >60 || h.length >2 || m.length >2 || s.length>2 || (h == 0 && m == 0 && s ==0))
         return -1; 
+
  
-    let str = h + ":" + m + ":" + s; 
+    let str = getStr(); 
     timer.innerHTML = str; 
+}
+
+//get string for timer
+function getStr(){  
+    let strH  = h; 
+    let strM = m; 
+    let strS = s; 
+
+    
+    console.log(m + " " + s); 
+
+    if(h < 10)
+        strH = '0' + h; 
+    if(m < 10)
+        strM = '0' + m; 
+    if(s < 10)
+        strS = '0' + s; 
+
+    let str = strH + ":"+ strM +":"+ strS; 
+    return str; 
 }
 
 //start timer
@@ -54,7 +69,7 @@ function stop(){
     h = 0; 
     m = 0; 
     s = 0; 
-    timer.innerHTML = "0:0:0"; 
+    timer.innerHTML = "00:00:00"; 
 }
 
 //timer function to repeat and update values 
@@ -79,7 +94,8 @@ function timerFunc(){
         }
 
         s--; 
-        timer.innerHTML = h+":"+m+":"+s; 
+        console.log(h.length); 
+        timer.innerHTML = getStr();  
     }
 }
 
@@ -97,7 +113,7 @@ setup
 
 //create the h2 element that will hold the timer 
 const timer = document.createElement("h2"); 
-timer.appendChild(document.createTextNode("0:0:0"));
+timer.appendChild(document.createTextNode("00:00:00"));
 timer.setAttribute("align", "center"); 
 timer.setAttribute("style","font-size:80" ); 
 document.body.appendChild(timer); 
