@@ -22,7 +22,7 @@ function get(){
     s = seconds.value; 
  
     //if invalid input return -1
-    if(h > 24 || m > 60 || s >60 || h.length >2 || m.length >2 || s.length>2 || (h == 0 && m == 0 && s ==0))
+    if(h > 23 || m > 59 || s >59 || h.length >2 || m.length >2 || s.length>2 || (h == 0 && m == 0 && s ==0))
         return -1; 
 
  
@@ -35,9 +35,6 @@ function getStr(){
     let strH  = h; 
     let strM = m; 
     let strS = s; 
-
-    
-    console.log(m + " " + s); 
 
     if(h < 10)
         strH = '0' + h; 
@@ -56,15 +53,25 @@ function start(){
     if(i != -1){
         startButton.disabled = true; 
         stopButton.disabled = false; 
+        hours.disabled = true; 
+        minutes.disabled = true; 
+        seconds.disabled = true; 
         interval = setInterval(timerFunc, 1000); 
     }
-    resetInput(); 
 }
 
 //stop timer; 
 function stop(){
+    alarm.pause(); 
+    alarm.currentTime = 0; 
+
     startButton.disabled = false; 
     stopButton.disabled = true; 
+
+    hours.disabled = false; 
+    minutes.disabled = false;  
+    seconds.disabled = false; 
+
     resetInput(); 
     clearInterval(interval); 
     h = 0; 
@@ -75,12 +82,16 @@ function stop(){
 
 //timer function to repeat and update values 
 function timerFunc(){
-    //if timer is done 
+
+    //if timer is done play sound 
     if(s == 1 && m == 0 && h ==0){
-        stop(); 
+        alarm.play(); 
+        s--; 
+        timer.innerHTML = getStr();  
     }
 
-    else{
+    //if timer is not 00:00:00
+    else if (s!=0 && m != 0 && h != 0){
     //if seconds is 0 and m is 0 and h > 0{}
         if(s == 0 && m == 0 && h > 0){
             h--; 
@@ -93,9 +104,7 @@ function timerFunc(){
             m --; 
             s = 60; 
         }
-
         s--; 
-        console.log(h.length); 
         timer.innerHTML = getStr();  
     }
 }
@@ -119,6 +128,10 @@ timer.setAttribute("align", "center");
 timer.setAttribute("style","font-size:80" ); 
 document.body.appendChild(timer); 
 resetInput(); 
+
+const alarm = document.createElement("audio"); 
+alarm.src = "alarm-clock.mp3"; 
+document.body.appendChild(alarm); 
 
 //setup start and stop buttons
 startButton.onclick = start; 
