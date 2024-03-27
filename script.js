@@ -133,7 +133,7 @@ document.body.appendChild(timer);
 resetInput(); 
 
 const alarm = document.createElement("audio"); 
-alarm.src = "../assets/alarm-clock.mp3"; 
+alarm.src = "assets/alarm-clock.mp3"; 
 document.body.appendChild(alarm); 
 
 //setup start and stop buttons
