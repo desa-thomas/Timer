@@ -82,16 +82,19 @@ function stop(){
 
 //timer function to repeat and update values 
 function timerFunc(){
+    //skip if timer is done and waiting to stop
+    if(s == 0 && m == 0 && h == 0)
+        return; 
 
     //if timer is done play sound 
-    if(s == 1 && m == 0 && h ==0){
+    else if(s == 1 && m == 0 && h ==0){
         alarm.play(); 
         s--; 
         timer.innerHTML = getStr();  
     }
 
     //if timer is not 00:00:00
-    else if (s!=0 && m != 0 && h != 0){
+    else {
     //if seconds is 0 and m is 0 and h > 0{}
         if(s == 0 && m == 0 && h > 0){
             h--; 
